@@ -110,12 +110,15 @@ export const works: Work[] = seeds.map(([slug, title, date, category, type, clie
   client,
   description,
   cover: `/work/${slug}.jpg`,
-  gallery: [
-    `/work/${slug}.jpg`,
-    wide((i % 8) + 1),
-    wide(((i + 3) % 8) + 1),
-    wide(((i + 6) % 8) + 1),
-  ],
+  gallery:
+    slug === "aruba"
+      ? [`/work/aruba.jpg`, `/work/aruba-1.jpg`, `/work/aruba-2.jpg`, `/work/aruba-3.jpg`]
+      : [
+          `/work/${slug}.jpg`,
+          wide((i % 8) + 1),
+          wide(((i + 3) % 8) + 1),
+          wide(((i + 6) % 8) + 1),
+        ],
 }));
 
 export const getWork = (slug: string) => works.find((w) => w.slug === slug);
