@@ -64,7 +64,7 @@ const wide = (n: number) => `/media/wide-${n}.jpg`;
 type Seed = [slug: string, title: string, date: string, category: Exclude<Category, "ALL">, type: string, client: string, description: string];
 
 const seeds: Seed[] = [
-  ["volley", "Volley", "07/2026", "STUDIO", "Commercial", "Ace", "Dynamic tabletop still-life capturing sport's energy through crisp shadows, minimalist composition, and tactile textures."],
+  ["aruba", "Aruba", "08/2026", "TRAVEL", "Personal", "Self-initiated", "Palm trees framing a beachfront sunset, shot at dusk as the sky fades from amber to indigo over the water."],
   ["citrus", "Citrus", "06/2026", "STUDIO", "Commercial", "Sela", "A study in hard light and saturated colour, built around a single fruit and the shadow it throws."],
   ["drift", "Drift", "04/2026", "STREET", "Editorial", "Noon", "Long-lens frames of a figure moving through a corridor of afternoon light."],
   ["mojito", "Mojito", "03/2026", "STUDIO", "Commercial", "Verde", "Beverage work shot against heavy velvet, leaning on condensation and rim light."],
