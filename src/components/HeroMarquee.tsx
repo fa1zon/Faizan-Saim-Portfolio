@@ -1,79 +1,71 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
+import RollingText from "./RollingText";
 import { works } from "@/data/site";
 
-const frames = [works[6], works[9], works[16], works[24], works[8], works[2], works[19], works[27]];
+type Slot = { work: (typeof works)[number]; widthVw: number; topVh: number; aspect: string };
 
-function Frame({ w, i, reveal }: { w: (typeof frames)[number]; i: number; reveal?: boolean }) {
-  return (
-    <div
-      data-reveal={reveal || undefined}
-      style={reveal ? ({ "--enter-delay": `${0.15 + i * 0.05}s` } as React.CSSProperties) : undefined}
-      className={`relative h-full shrink-0 overflow-hidden ${reveal ? "enter-rise" : ""} ${
-        i % 3 === 1 ? "aspect-[3/4]" : "aspect-[4/5]"
-      } ${i % 2 === 1 ? "self-end" : "self-start"}`}
-    >
-      <Image
-        src={w.cover}
-        alt={w.title}
-        fill
-        priority={reveal && i < 3}
-        sizes="(max-width: 768px) 60vw, 30vw"
-        className="object-cover"
-        draggable={false}
-      />
-    </div>
-  );
-}
+/** Loose two-tier scatter, widths/offsets in viewport units so it scales with the screen. */
+const slots: Slot[] = [
+  { work: works[18], widthVw: 19, topVh: 0, aspect: "4 / 5" },
+  { work: works[6], widthVw: 11, topVh: 15, aspect: "3 / 4" },
+  { work: works[16], widthVw: 16, topVh: 4, aspect: "4 / 5" },
+  { work: works[9], widthVw: 16, topVh: 0, aspect: "4 / 5" },
+  { work: works[24], widthVw: 14, topVh: 32, aspect: "3 / 4" },
+  { work: works[2], widthVw: 18, topVh: 20, aspect: "3 / 4" },
+  { work: works[19], widthVw: 22, topVh: 32, aspect: "1 / 1" },
+  { work: works[27], widthVw: 18, topVh: 34, aspect: "4 / 5" },
+];
 
 /**
- * The hero row drifts sideways on its own, slowly, forever, via a CSS
- * transform animation on the track (see .hero-marquee-track) — that keeps
- * running on the compositor thread even when the tab is backgrounded, unlike
- * a JS requestAnimationFrame loop, which can stall almost completely there.
- * The track sits inside a native horizontally-scrollable container, so a
- * trackpad swipe, shift+wheel, or touch drag moves it too; a CSS transform
- * composes on top of scroll position rather than fighting it, so nothing
- * needs to pause the animation for that to work. Click-drag is added here
- * for plain-mouse desktop users, on the same basis — it just changes
- * scrollLeft, same as any other manual scroll.
+ * The reference's hero isn't a single strip — frames scatter across two loose
+ * tiers with a lot of empty space, and the "Enter Archives" button floats
+ * centered over the top of it. The whole scatter is one wheel-driven
+ * horizontal ticker: scrolling down pans it sideways until it runs out, then
+ * ordinary vertical scrolling takes over (see the capture-phase listener
+ * below — it also has to win the race against Lenis, which listens for
+ * wheel on window too).
  */
 export default function HeroMarquee() {
-  const outer = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = outer.current;
+    const el = track.current;
     if (!el) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let dragging = false;
-    let startX = 0;
-    let startScroll = 0;
+    let targetX = el.scrollLeft;
+    let raf = 0;
 
-    const onPointerDown = (e: PointerEvent) => {
-      dragging = true;
-      startX = e.clientX;
-      startScroll = el.scrollLeft;
-      el.setPointerCapture(e.pointerId);
-    };
-    const onPointerMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      el.scrollLeft = startScroll - (e.clientX - startX);
-    };
-    const endDrag = () => {
-      dragging = false;
+    const onWheel = (e: WheelEvent) => {
+      if (window.scrollY > 2) return;
+
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+
+      const max = el.scrollWidth - el.clientWidth;
+      const next = Math.max(0, Math.min(max, targetX + delta));
+      if (next === targetX) return;
+
+      targetX = next;
+      e.preventDefault();
+      e.stopPropagation();
     };
 
-    el.addEventListener("pointerdown", onPointerDown);
-    el.addEventListener("pointermove", onPointerMove);
-    el.addEventListener("pointerup", endDrag);
-    el.addEventListener("pointercancel", endDrag);
+    const loop = () => {
+      el.scrollLeft += (targetX - el.scrollLeft) * 0.12;
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+
+    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
     return () => {
-      el.removeEventListener("pointerdown", onPointerDown);
-      el.removeEventListener("pointermove", onPointerMove);
-      el.removeEventListener("pointerup", endDrag);
-      el.removeEventListener("pointercancel", endDrag);
+      window.removeEventListener("wheel", onWheel, { capture: true });
+      cancelAnimationFrame(raf);
     };
   }, []);
 
@@ -81,21 +73,43 @@ export default function HeroMarquee() {
     <div
       data-reveal
       style={{ "--enter-delay": "0.1s" } as React.CSSProperties}
-      className="enter-fade h-[46vh] min-h-[260px] md:h-[56vh]"
+      className="enter-fade relative h-[62vh] min-h-[420px] max-h-[720px]"
     >
       <div
-        ref={outer}
-        className="h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        style={{ cursor: "grab", touchAction: "pan-x" }}
+        ref={track}
+        className="flex h-full items-start gap-[3vw] overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-10"
       >
-        <div className="hero-marquee-track flex h-full w-max items-stretch gap-[6px] py-[3px] pl-4 md:pl-10">
-          {frames.map((w, i) => (
-            <Frame key={`a-${w.slug}`} w={w} i={i} reveal />
-          ))}
-          {frames.map((w, i) => (
-            <Frame key={`b-${w.slug}`} w={w} i={i} />
-          ))}
-        </div>
+        {slots.map((s, i) => (
+          <div
+            key={`${s.work.slug}-${i}`}
+            data-reveal
+            style={
+              {
+                "--enter-delay": `${0.15 + i * 0.05}s`,
+                width: `${s.widthVw}vw`,
+                marginTop: `${s.topVh}vh`,
+                aspectRatio: s.aspect,
+              } as React.CSSProperties
+            }
+            className="enter-rise relative shrink-0 overflow-hidden"
+          >
+            <Image
+              src={s.work.cover}
+              alt={s.work.title}
+              fill
+              priority={i < 4}
+              sizes="30vw"
+              className="object-cover"
+            />
+          </div>
+        ))}
+        <div className="w-4 shrink-0 md:w-10" aria-hidden />
+      </div>
+
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+        <Link href="/archive" data-roll-host data-cursor="link" className="btn-solid pointer-events-auto">
+          <RollingText text="Enter Archives" className="ui-label" />
+        </Link>
       </div>
     </div>
   );

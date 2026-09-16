@@ -24,35 +24,29 @@ export default function Home() {
         <HeroMarquee />
       </section>
 
-      <section className="mx-auto flex max-w-[1400px] flex-col items-start gap-10 px-4 py-20 md:flex-row md:items-end md:justify-between md:px-10 md:py-28">
-        <div className="flex max-w-[560px] items-start gap-5">
-          <Image
-            src={site.avatar}
-            alt={site.name}
-            width={80}
-            height={80}
-            className="h-16 w-16 shrink-0 rounded-full object-cover md:h-20 md:w-20"
-          />
-          <p
-            data-reveal
-            className="enter-lift body-copy text-[18px] md:text-[22px]"
-            style={{ "--enter-delay": "0.1s" } as React.CSSProperties}
-          >
-            {site.hero.lead.split("**").map((part, i) =>
-              i % 2 === 1 ? (
-                <strong key={i} className="font-normal text-paper">
-                  {part}
-                </strong>
-              ) : (
-                <span key={i}>{part}</span>
-              ),
-            )}
-          </p>
-        </div>
-
-        <Link href="/archive" data-roll-host data-cursor="link" className="btn-solid shrink-0">
-          <RollingText text="Enter Archives" className="ui-label" />
-        </Link>
+      <section className="mx-auto flex max-w-[1400px] items-start gap-5 px-4 py-20 md:px-10 md:py-28">
+        <Image
+          src={site.avatar}
+          alt={site.name}
+          width={80}
+          height={80}
+          className="h-16 w-16 shrink-0 rounded-full object-cover md:h-20 md:w-20"
+        />
+        <p
+          data-reveal
+          className="enter-lift body-copy max-w-[560px] text-[18px] md:text-[22px]"
+          style={{ "--enter-delay": "0.1s" } as React.CSSProperties}
+        >
+          {site.hero.lead.split("**").map((part, i) =>
+            i % 2 === 1 ? (
+              <strong key={i} className="font-normal text-paper">
+                {part}
+              </strong>
+            ) : (
+              <span key={i}>{part}</span>
+            ),
+          )}
+        </p>
       </section>
 
       <section className="border-t border-line px-4 py-20 md:px-10 md:py-28">
