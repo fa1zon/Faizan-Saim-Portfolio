@@ -83,10 +83,10 @@ export default function HeroMarquee() {
 
     const onWheel = () => pauseAwhile();
     const onTouchStart = () => pauseAwhile();
-    const onScroll = () => {
-      wrap();
-      pauseAwhile();
-    };
+    // Note: this also fires for the autoplay loop's own `scrollLeft` writes —
+    // it must only wrap, never pause, or autoplay would pause itself on every
+    // single frame it advances.
+    const onScroll = () => wrap();
 
     const onPointerDown = (e: PointerEvent) => {
       dragging = true;
