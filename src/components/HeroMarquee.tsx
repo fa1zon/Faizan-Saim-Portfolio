@@ -40,7 +40,15 @@ export default function HeroMarquee() {
       if (next === targetX) return;
 
       targetX = next;
+      // Lenis (SmoothScroll) also listens for wheel on window to drive the
+      // page's inertial scroll. Without stopping propagation here, the same
+      // wheel tick both pans the strip *and* scrolls the page underneath it —
+      // preventDefault alone only blocks the browser's native scroll, not
+      // another JS listener. Capturing this listener and stopping the event
+      // here is what makes the handoff clean: nothing scrolls the page until
+      // the strip has nowhere left to go.
       e.preventDefault();
+      e.stopPropagation();
     };
 
     const loop = () => {
@@ -49,9 +57,11 @@ export default function HeroMarquee() {
     };
     raf = requestAnimationFrame(loop);
 
-    window.addEventListener("wheel", onWheel, { passive: false });
+    // Capture phase so this runs before Lenis's own (bubble-phase) wheel
+    // listener, regardless of mount order.
+    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
     return () => {
-      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("wheel", onWheel, { capture: true });
       cancelAnimationFrame(raf);
     };
   }, []);
