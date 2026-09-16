@@ -20,52 +20,83 @@ const slots: Slot[] = [
   { work: works[27], widthVw: 18, topVh: 34, aspect: "4 / 5" },
 ];
 
+function Frame({ s, i, reveal }: { s: Slot; i: number; reveal?: boolean }) {
+  return (
+    <div
+      data-reveal={reveal || undefined}
+      style={
+        {
+          "--enter-delay": reveal ? `${0.15 + i * 0.05}s` : undefined,
+          width: `${s.widthVw}vw`,
+          marginTop: `${s.topVh}vh`,
+          aspectRatio: s.aspect,
+        } as React.CSSProperties
+      }
+      className={`relative shrink-0 overflow-hidden ${reveal ? "enter-rise" : ""}`}
+    >
+      <Image
+        src={s.work.cover}
+        alt={s.work.title}
+        fill
+        priority={reveal && i < 4}
+        sizes="30vw"
+        className="object-cover"
+      />
+    </div>
+  );
+}
+
 /**
- * The reference's hero isn't a single strip — frames scatter across two loose
- * tiers with a lot of empty space, and the "Enter Archives" button floats
- * centered over the top of it. The whole scatter is one wheel-driven
- * horizontal ticker: scrolling down pans it sideways until it runs out, then
- * ordinary vertical scrolling takes over (see the capture-phase listener
- * below — it also has to win the race against Lenis, which listens for
- * wheel on window too).
+ * The scatter drifts sideways on its own, slowly, forever, via a CSS
+ * transform animation on the track (see .hero-marquee-track in globals.css)
+ * — that keeps running on the compositor thread even when the tab is
+ * backgrounded, unlike a JS requestAnimationFrame loop, which can stall
+ * almost completely there. The track renders the scatter twice back to back
+ * and slides exactly one copy's width left, so the loop point is invisible.
+ * It still sits inside a native horizontally-scrollable container, so a
+ * trackpad swipe, touch drag, or click-drag all move it too — a CSS
+ * transform composes on top of scroll position rather than fighting it. It
+ * never pauses on hover, only while a frame is actually pressed (see
+ * .is-pressed), so it keeps drifting until you touch it.
  */
 export default function HeroMarquee() {
+  const outer = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = track.current;
-    if (!el) return;
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = outer.current;
+    const trackEl = track.current;
+    if (!el || !trackEl) return;
 
-    let targetX = el.scrollLeft;
-    let raf = 0;
+    let dragging = false;
+    let startX = 0;
+    let startScroll = 0;
 
-    const onWheel = (e: WheelEvent) => {
-      if (window.scrollY > 2) return;
-
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (delta === 0) return;
-
-      const max = el.scrollWidth - el.clientWidth;
-      const next = Math.max(0, Math.min(max, targetX + delta));
-      if (next === targetX) return;
-
-      targetX = next;
-      e.preventDefault();
-      e.stopPropagation();
+    const onPointerDown = (e: PointerEvent) => {
+      dragging = true;
+      startX = e.clientX;
+      startScroll = el.scrollLeft;
+      el.setPointerCapture(e.pointerId);
+      trackEl.classList.add("is-pressed");
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging) return;
+      el.scrollLeft = startScroll - (e.clientX - startX);
+    };
+    const endDrag = () => {
+      dragging = false;
+      trackEl.classList.remove("is-pressed");
     };
 
-    const loop = () => {
-      el.scrollLeft += (targetX - el.scrollLeft) * 0.12;
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-
-    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
+    el.addEventListener("pointerdown", onPointerDown);
+    el.addEventListener("pointermove", onPointerMove);
+    el.addEventListener("pointerup", endDrag);
+    el.addEventListener("pointercancel", endDrag);
     return () => {
-      window.removeEventListener("wheel", onWheel, { capture: true });
-      cancelAnimationFrame(raf);
+      el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("pointermove", onPointerMove);
+      el.removeEventListener("pointerup", endDrag);
+      el.removeEventListener("pointercancel", endDrag);
     };
   }, []);
 
@@ -76,34 +107,20 @@ export default function HeroMarquee() {
       className="enter-fade relative h-[62vh] min-h-[420px] max-h-[720px]"
     >
       <div
-        ref={track}
-        className="flex h-full items-start gap-[3vw] overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-16"
+        ref={outer}
+        className="h-full overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-16"
+        style={{ cursor: "grab", touchAction: "pan-x" }}
       >
-        {slots.map((s, i) => (
-          <div
-            key={`${s.work.slug}-${i}`}
-            data-reveal
-            style={
-              {
-                "--enter-delay": `${0.15 + i * 0.05}s`,
-                width: `${s.widthVw}vw`,
-                marginTop: `${s.topVh}vh`,
-                aspectRatio: s.aspect,
-              } as React.CSSProperties
-            }
-            className="enter-rise relative shrink-0 overflow-hidden"
-          >
-            <Image
-              src={s.work.cover}
-              alt={s.work.title}
-              fill
-              priority={i < 4}
-              sizes="30vw"
-              className="object-cover"
-            />
-          </div>
-        ))}
-        <div className="w-4 shrink-0 md:w-10" aria-hidden />
+        <div ref={track} className="hero-marquee-track flex h-full w-max items-start gap-[3vw]">
+          {slots.map((s, i) => (
+            <Frame key={`a-${s.work.slug}-${i}`} s={s} i={i} reveal />
+          ))}
+          <div className="w-[3vw] shrink-0" aria-hidden />
+          {slots.map((s, i) => (
+            <Frame key={`b-${s.work.slug}-${i}`} s={s} i={i} />
+          ))}
+          <div className="w-[3vw] shrink-0" aria-hidden />
+        </div>
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">

@@ -126,8 +126,9 @@
    left; since both halves are identical the loop point is invisible. This
    runs inside a native horizontally-scrollable container, and a CSS
    transform composes on top of scroll position rather than replacing it, so
-   the user can still drag/swipe/scroll it manually without fighting the
-   animation — it just keeps drifting from wherever they leave it. */
+   the user can still drag/swipe/scroll it manually. Hovering never pauses it
+   — only an active press does (see .is-pressed, toggled on pointerdown), so
+   the drag doesn't fight the animation while a frame is held. */
 @keyframes hero-marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -137,7 +138,7 @@
   animation: hero-marquee 90s linear infinite;
 }
 
-.hero-marquee-track:hover {
+.hero-marquee-track.is-pressed {
   animation-play-state: paused;
 }
 
