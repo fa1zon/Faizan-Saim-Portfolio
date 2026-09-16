@@ -118,6 +118,25 @@
    applies this, so with no JavaScript the tile stays visible. */
 [data-await-scroll="true"] { opacity: 0; }
 
+/* --- Hero marquee ---------------------------------------------------------
+   The hero row scrolls itself, continuously, at a fixed pace. The track
+   renders the frame list twice back to back and slides exactly one copy's
+   width to the left; because both halves are identical the loop point is
+   invisible. Pausing on hover is a small affordance for actually looking at
+   a frame; prefers-reduced-motion already freezes it via the rule below. */
+@keyframes hero-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.hero-marquee-track {
+  animation: hero-marquee 50s linear infinite;
+}
+
+.hero-marquee-track:hover {
+  animation-play-state: paused;
+}
+
 /* --- Frame-loss safety net ----------------------------------------------
    While the document is not being painted, requestAnimationFrame is paused and
    Motion cannot finish (or even start) an entrance. Everything that animates in
