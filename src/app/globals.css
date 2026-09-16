@@ -118,6 +118,29 @@
    applies this, so with no JavaScript the tile stays visible. */
 [data-await-scroll="true"] { opacity: 0; }
 
+/* --- Hero marquee ---------------------------------------------------------
+   Deliberately a CSS animation, not a JS rAF loop: rAF gets throttled hard
+   (sometimes to a near-standstill) once a document is backgrounded, while a
+   transform animation keeps running on the compositor thread regardless. The
+   track renders the frame list twice and slides exactly one copy's width
+   left; since both halves are identical the loop point is invisible. This
+   runs inside a native horizontally-scrollable container, and a CSS
+   transform composes on top of scroll position rather than replacing it, so
+   the user can still drag/swipe/scroll it manually without fighting the
+   animation — it just keeps drifting from wherever they leave it. */
+@keyframes hero-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.hero-marquee-track {
+  animation: hero-marquee 90s linear infinite;
+}
+
+.hero-marquee-track:hover {
+  animation-play-state: paused;
+}
+
 /* --- Frame-loss safety net ----------------------------------------------
    While the document is not being painted, requestAnimationFrame is paused and
    Motion cannot finish (or even start) an entrance. Everything that animates in

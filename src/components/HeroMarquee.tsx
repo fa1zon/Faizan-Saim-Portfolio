@@ -6,11 +6,6 @@ import { works } from "@/data/site";
 
 const frames = [works[6], works[9], works[16], works[24], works[8], works[2], works[19], works[27]];
 
-/** Px/second the strip drifts on its own when nobody is touching it. */
-const AUTOPLAY_SPEED = 14;
-/** How long after the last manual scroll/drag before autoplay picks back up. */
-const RESUME_DELAY = 1200;
-
 function Frame({ w, i, reveal }: { w: (typeof frames)[number]; i: number; reveal?: boolean }) {
   return (
     <div
@@ -34,90 +29,47 @@ function Frame({ w, i, reveal }: { w: (typeof frames)[number]; i: number; reveal
 }
 
 /**
- * The hero row drifts sideways on its own, slowly, forever — but it's still
- * a real scroll container underneath: trackpad swipe, shift+wheel, touch, and
- * click-drag all move it directly. Any of those pauses the autoplay for a
- * beat, then it eases back in. The frame list is rendered twice so nudging
- * scrollLeft past the halfway point can wrap invisibly, back or forward.
+ * The hero row drifts sideways on its own, slowly, forever, via a CSS
+ * transform animation on the track (see .hero-marquee-track) — that keeps
+ * running on the compositor thread even when the tab is backgrounded, unlike
+ * a JS requestAnimationFrame loop, which can stall almost completely there.
+ * The track sits inside a native horizontally-scrollable container, so a
+ * trackpad swipe, shift+wheel, or touch drag moves it too; a CSS transform
+ * composes on top of scroll position rather than fighting it, so nothing
+ * needs to pause the animation for that to work. Click-drag is added here
+ * for plain-mouse desktop users, on the same basis — it just changes
+ * scrollLeft, same as any other manual scroll.
  */
 export default function HeroMarquee() {
-  const track = useRef<HTMLDivElement>(null);
+  const outer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = track.current;
+    const el = outer.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let active = false;
-    let resumeAt = 0;
     let dragging = false;
-    let dragStartX = 0;
-    let dragStartScroll = 0;
-    let last = performance.now();
-    let raf = 0;
-
-    const wrap = () => {
-      const half = el.scrollWidth / 2;
-      if (el.scrollLeft >= half) el.scrollLeft -= half;
-      else if (el.scrollLeft < 0) el.scrollLeft += half;
-    };
-
-    const loop = (t: number) => {
-      const dt = (t - last) / 1000;
-      last = t;
-      if (!active && !dragging) {
-        el.scrollLeft += AUTOPLAY_SPEED * dt;
-        wrap();
-      }
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-
-    const pauseAwhile = () => {
-      active = true;
-      resumeAt = performance.now() + RESUME_DELAY;
-      setTimeout(() => {
-        if (performance.now() >= resumeAt) active = false;
-      }, RESUME_DELAY + 20);
-    };
-
-    const onWheel = () => pauseAwhile();
-    const onTouchStart = () => pauseAwhile();
-    // Note: this also fires for the autoplay loop's own `scrollLeft` writes —
-    // it must only wrap, never pause, or autoplay would pause itself on every
-    // single frame it advances.
-    const onScroll = () => wrap();
+    let startX = 0;
+    let startScroll = 0;
 
     const onPointerDown = (e: PointerEvent) => {
       dragging = true;
-      dragStartX = e.clientX;
-      dragStartScroll = el.scrollLeft;
+      startX = e.clientX;
+      startScroll = el.scrollLeft;
       el.setPointerCapture(e.pointerId);
-      pauseAwhile();
     };
     const onPointerMove = (e: PointerEvent) => {
       if (!dragging) return;
-      el.scrollLeft = dragStartScroll - (e.clientX - dragStartX);
-      wrap();
+      el.scrollLeft = startScroll - (e.clientX - startX);
     };
     const endDrag = () => {
       dragging = false;
-      pauseAwhile();
     };
 
-    el.addEventListener("wheel", onWheel, { passive: true });
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("scroll", onScroll, { passive: true });
     el.addEventListener("pointerdown", onPointerDown);
     el.addEventListener("pointermove", onPointerMove);
     el.addEventListener("pointerup", endDrag);
     el.addEventListener("pointercancel", endDrag);
-
     return () => {
-      cancelAnimationFrame(raf);
-      el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("scroll", onScroll);
       el.removeEventListener("pointerdown", onPointerDown);
       el.removeEventListener("pointermove", onPointerMove);
       el.removeEventListener("pointerup", endDrag);
@@ -132,16 +84,18 @@ export default function HeroMarquee() {
       className="enter-fade h-[46vh] min-h-[260px] md:h-[56vh]"
     >
       <div
-        ref={track}
-        className="flex h-full items-stretch gap-[6px] overflow-x-auto py-[3px] pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:pl-10"
+        ref={outer}
+        className="h-full overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ cursor: "grab", touchAction: "pan-x" }}
       >
-        {frames.map((w, i) => (
-          <Frame key={`a-${w.slug}`} w={w} i={i} reveal />
-        ))}
-        {frames.map((w, i) => (
-          <Frame key={`b-${w.slug}`} w={w} i={i} />
-        ))}
+        <div className="hero-marquee-track flex h-full w-max items-stretch gap-[6px] py-[3px] pl-4 md:pl-10">
+          {frames.map((w, i) => (
+            <Frame key={`a-${w.slug}`} w={w} i={i} reveal />
+          ))}
+          {frames.map((w, i) => (
+            <Frame key={`b-${w.slug}`} w={w} i={i} />
+          ))}
+        </div>
       </div>
     </div>
   );
