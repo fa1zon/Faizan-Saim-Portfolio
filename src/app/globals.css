@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --ink: #0e1011;
-  --paper: #ffffff;
-  --muted: #b5b5b5;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-2: rgba(255, 255, 255, 0.08);
-  --line: rgba(255, 255, 255, 0.11);
-  --glass: rgba(12, 14, 15, 0.5);
-  --glass-strong: rgba(12, 14, 15, 0.7);
+  --ink: #f2f2f2;
+  --paper: #121212;
+  --muted: #6b6b6b;
+  --surface: rgba(18, 18, 18, 0.05);
+  --surface-2: rgba(18, 18, 18, 0.08);
+  --line: rgba(18, 18, 18, 0.12);
+  --glass: rgba(242, 242, 242, 0.6);
+  --glass-strong: rgba(242, 242, 242, 0.85);
   --gutter: 6px;
   --bar: 44px;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @layer base {
@@ -38,7 +38,7 @@
   }
 
   ::selection {
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(18, 18, 18, 0.14);
   }
 
   ::-webkit-scrollbar {
@@ -50,14 +50,14 @@
 @layer components {
   /* Small uppercase UI label used across every chrome element. */
   .ui-label {
-    @apply font-display text-[12px] font-light uppercase leading-none tracking-[0.25px];
+    @apply font-display text-[12px] font-normal uppercase leading-none tracking-[0.4px];
   }
 
   .glass {
     background: var(--glass);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px 0 rgba(11, 7, 30, 0.1);
+    box-shadow: 0 10px 30px 0 rgba(18, 18, 18, 0.07);
   }
 
   /* Floating panels carry far more text than the bars do, and they open over
@@ -66,7 +66,18 @@
     background: var(--glass-strong);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 10px 30px 0 rgba(11, 7, 30, 0.25);
+    box-shadow: 0 10px 30px 0 rgba(18, 18, 18, 0.12);
+  }
+
+  /* The reference renders sentence-case copy as capitalised title case via
+     text-transform, so the underlying string stays natural for screen readers. */
+  .body-copy {
+    @apply font-light capitalize leading-[1.6] tracking-[0.2px] text-muted;
+  }
+
+  /* Solid pill button — the reference's one recurring call-to-action shape. */
+  .btn-solid {
+    @apply inline-flex h-11 items-center justify-center gap-3 bg-paper px-6 text-ink transition-opacity duration-300 ease-framer hover:opacity-80;
   }
 }
 

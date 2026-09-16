@@ -86,7 +86,7 @@ export default function Cursor() {
         style={{
           width: size,
           height: size,
-          background: "rgba(12,14,15,0.5)",
+          background: "rgba(18,18,18,0.35)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
           transition: "width 350ms cubic-bezier(0.44,0,0.22,1), height 350ms cubic-bezier(0.44,0,0.22,1)",

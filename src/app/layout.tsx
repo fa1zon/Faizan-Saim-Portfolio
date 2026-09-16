@@ -1,47 +1,38 @@
 import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
+import { Oswald } from "next/font/google";
 import "./globals.css";
 
 import Cursor from "@/components/Cursor";
 import MotionProvider from "@/components/MotionProvider";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
-import ProfileBadge from "@/components/ProfileBadge";
+import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import { site } from "@/data/site";
 
-const figtree = Figtree({
+const oswald = Oswald({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-figtree",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-oswald",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.role}`,
-  description: site.about.body[0],
+  title: `${site.wordmark} — ${site.name}, ${site.role}`,
+  description: site.hero.lead,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={figtree.variable}>
-      <head>
-        <link rel="preconnect" href="https://api.fontshare.com" />
-        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://api.fontshare.com/v2/css?f%5B%5D=switzer@200,300,400,500&display=swap"
-        />
-      </head>
+    <html lang="en" className={oswald.variable}>
       <body className="font-body">
         <MotionProvider>
           <SmoothScroll />
           <Cursor />
 
-          <PageTransition>{children}</PageTransition>
-
           <Header />
-          <ProfileBadge />
+          <PageTransition>{children}</PageTransition>
+          <Footer />
         </MotionProvider>
       </body>
     </html>

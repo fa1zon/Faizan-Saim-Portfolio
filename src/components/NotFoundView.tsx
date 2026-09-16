@@ -15,9 +15,9 @@ export default function NotFoundView() {
           href="/"
           data-roll-host
           data-cursor="link"
-          className="glass flex h-11 items-center rounded-card px-5 text-paper"
+          className="btn-solid"
         >
-          <RollingText text="BACK TO WORK" className="ui-label" />
+          <RollingText text="BACK TO HOME" className="ui-label" />
         </Link>
       </div>
     </main>

@@ -32,7 +32,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-[6px]">
       {fields.map((f) => (
-        <label key={f.name} className="flex flex-col gap-1 rounded-card bg-surface px-4 py-3 transition-colors duration-300 ease-framer focus-within:bg-white/[0.08]">
+        <label key={f.name} className="flex flex-col gap-1 bg-surface px-4 py-3 transition-colors duration-300 ease-framer focus-within:bg-[rgba(18,18,18,0.08)]">
           <span className="ui-label text-muted">{f.label}</span>
           {f.rows ? (
             <textarea
@@ -41,7 +41,7 @@ export default function ContactForm() {
               placeholder={f.placeholder}
               value={values[f.name as keyof typeof values]}
               onChange={(e) => setValues((v) => ({ ...v, [f.name]: e.target.value }))}
-              className="resize-none bg-transparent text-[15px] font-light text-paper outline-none placeholder:text-white/30"
+              className="resize-none bg-transparent text-[15px] font-light text-paper outline-none placeholder:text-black/30"
             />
           ) : (
             <input
@@ -50,7 +50,7 @@ export default function ContactForm() {
               placeholder={f.placeholder}
               value={values[f.name as keyof typeof values]}
               onChange={(e) => setValues((v) => ({ ...v, [f.name]: e.target.value }))}
-              className="bg-transparent text-[15px] font-light text-paper outline-none placeholder:text-white/30"
+              className="bg-transparent text-[15px] font-light text-paper outline-none placeholder:text-black/30"
             />
           )}
         </label>
@@ -61,7 +61,7 @@ export default function ContactForm() {
         disabled={!complete}
         data-roll-host
         data-cursor="link"
-        className="mt-[6px] flex h-11 items-center justify-center rounded-card bg-surface text-paper transition-colors duration-300 ease-framer enabled:hover:bg-white/[0.12] disabled:text-muted"
+        className="mt-[6px] flex h-11 items-center justify-center bg-paper text-ink transition-opacity duration-300 ease-framer enabled:hover:opacity-80 disabled:opacity-40"
       >
         <RollingText text={complete ? "SEND MESSAGE" : "FILL OUT THE FORM"} className="ui-label" />
       </button>

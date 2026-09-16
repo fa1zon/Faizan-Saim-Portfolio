@@ -5,17 +5,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#0e1011",
-        paper: "#ffffff",
-        muted: "#b5b5b5",
-        surface: "rgba(255,255,255,0.05)",
-        line: "rgba(255,255,255,0.11)",
-        glass: "rgba(12,14,15,0.5)",
-        "glass-strong": "rgba(12,14,15,0.7)",
+        ink: "#f2f2f2",
+        paper: "#121212",
+        muted: "#6b6b6b",
+        surface: "rgba(18,18,18,0.05)",
+        line: "rgba(18,18,18,0.12)",
+        glass: "rgba(242,242,242,0.6)",
+        "glass-strong": "rgba(242,242,242,0.85)",
       },
       fontFamily: {
-        display: ["Switzer", "Switzer Fallback", "system-ui", "sans-serif"],
-        body: ["var(--font-figtree)", "system-ui", "sans-serif"],
+        display: ["var(--font-oswald)", "system-ui", "sans-serif"],
+        body: ["var(--font-oswald)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         card: "6px",
