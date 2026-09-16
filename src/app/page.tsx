@@ -12,7 +12,7 @@ export default function Home() {
       <section className="flex flex-col gap-8 pb-[6px] pt-28 md:pt-40">
         <h1
           data-reveal
-          className="enter-lift px-4 font-display text-[40px] font-light uppercase leading-[0.95] text-paper md:px-10 md:text-[64px]"
+          className="enter-lift px-4 font-display text-[40px] font-light uppercase leading-[0.95] text-paper md:px-16 md:text-[64px]"
         >
           {site.hero.heading.map((line) => (
             <span key={line} className="block">
@@ -24,7 +24,7 @@ export default function Home() {
         <HeroMarquee />
       </section>
 
-      <section className="mx-auto flex max-w-[1400px] items-start gap-5 px-4 py-20 md:px-10 md:py-28">
+      <section className="mx-auto flex max-w-[1400px] items-start gap-5 px-4 py-20 md:px-16 md:py-28">
         <Image
           src={site.avatar}
           alt={site.name}
@@ -49,7 +49,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="border-t border-line px-4 py-20 md:px-10 md:py-28">
+      <section className="px-4 py-20 md:px-16 md:py-28">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <h2 className="font-display text-[32px] font-light uppercase leading-[0.95] text-paper md:text-[48px]">
             {site.narrative.heading.map((line) => (
@@ -70,7 +70,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-line px-4 py-20 md:px-10 md:py-28">
+      <section className="px-4 py-20 md:px-16 md:py-28">
         <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <h2 className="font-display text-[32px] font-light uppercase leading-[0.95] text-paper md:text-[48px]">
             {site.journalTeaser.heading.map((line) => (
@@ -91,7 +91,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-line px-4 py-24 text-center md:py-32">
+      <section className="px-4 py-24 text-center md:py-32">
         <h2
           data-reveal
           className="enter-lift font-display text-[36px] font-light uppercase leading-[0.95] text-paper md:text-[56px]"

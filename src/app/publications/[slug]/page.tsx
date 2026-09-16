@@ -21,7 +21,7 @@ export default async function PublicationPage({ params }: { params: Promise<{ sl
   if (!pub) notFound();
 
   return (
-    <main className="px-4 pb-24 pt-28 md:px-10 md:pt-40">
+    <main className="px-4 pb-24 pt-28 md:px-16 md:pt-40">
       <div className="mx-auto max-w-[860px]">
         <Link
           href="/publications"

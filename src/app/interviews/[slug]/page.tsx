@@ -20,7 +20,7 @@ export default async function InterviewPage({ params }: { params: Promise<{ slug
   if (!item) notFound();
 
   return (
-    <main className="px-4 pb-24 pt-28 md:px-10 md:pt-40">
+    <main className="px-4 pb-24 pt-28 md:px-16 md:pt-40">
       <div className="mx-auto max-w-[860px]">
         <Link
           href="/interviews"

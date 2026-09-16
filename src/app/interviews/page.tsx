@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: `Interviews — ${site.wordmark}` };
 
 export default function InterviewsPage() {
   return (
-    <main className="px-4 pb-24 pt-28 md:px-10 md:pt-40">
+    <main className="px-4 pb-24 pt-28 md:px-16 md:pt-40">
       <h1 data-reveal className="enter-lift font-display text-[40px] font-light uppercase leading-[0.95] text-paper md:text-[64px]">
         Beyond The Frame
       </h1>

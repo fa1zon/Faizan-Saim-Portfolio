@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: `Contact — ${site.wordmark}` };
 
 export default function ContactPage() {
   return (
-    <main className="px-4 pb-24 pt-28 md:px-10 md:pt-40">
+    <main className="px-4 pb-24 pt-28 md:px-16 md:pt-40">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 md:grid-cols-2 md:gap-24">
         <div className="flex flex-col gap-8">
           <h1

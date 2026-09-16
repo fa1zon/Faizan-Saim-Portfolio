@@ -77,7 +77,7 @@ export default function HeroMarquee() {
     >
       <div
         ref={track}
-        className="flex h-full items-start gap-[3vw] overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-10"
+        className="flex h-full items-start gap-[3vw] overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-16"
       >
         {slots.map((s, i) => (
           <div

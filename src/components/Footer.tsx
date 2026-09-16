@@ -4,7 +4,7 @@ import { site } from "@/data/site";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-line px-6 pb-10 pt-16 md:px-10">
+    <footer className="border-t border-line px-6 pb-10 pt-16 md:px-16">
       <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-6 text-center">
         <Link href="/" data-cursor="link" className="font-display text-[15px] font-medium uppercase tracking-[0.5px] text-paper">
           {site.wordmark}

@@ -61,7 +61,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <div data-reveal className="enter-drop fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-10 md:pt-8">
+    <div data-reveal className="enter-drop fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-16 md:pt-8">
       <div className="flex w-full max-w-[1400px] items-start justify-between">
         <Link href="/" data-roll-host data-cursor="link" className="glass flex h-11 items-center px-4 text-paper">
           <RollingText text={site.wordmark} className="font-display text-[14px] font-medium tracking-[0.5px]" />

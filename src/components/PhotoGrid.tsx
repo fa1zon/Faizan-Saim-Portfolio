@@ -3,7 +3,7 @@ import type { Work } from "@/data/site";
 
 export default function PhotoGrid({ items }: { items: Work[] }) {
   return (
-    <div className="grid grid-cols-2 gap-[6px] md:grid-cols-3">
+    <div className="grid grid-cols-2 gap-6 md:grid-cols-3 md:gap-8">
       {items.map((w, i) => (
         <div
           key={w.slug}

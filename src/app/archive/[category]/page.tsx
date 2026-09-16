@@ -33,7 +33,7 @@ export default async function ArchiveCollectionPage({ params }: { params: Promis
   const items = worksByCategory(resolved);
 
   return (
-    <main className="px-4 pb-24 pt-28 md:px-10 md:pt-40">
+    <main className="px-4 pb-24 pt-28 md:px-16 md:pt-40">
       <div className="mb-16 flex flex-col gap-6">
         <Link href="/archive" data-roll-host data-cursor="link" className="ui-label w-fit text-muted transition-colors duration-300 ease-framer hover:text-paper">
           <RollingText text="← All Collections" className="ui-label" />
