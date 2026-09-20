@@ -22,10 +22,6 @@ export const site = {
     lead:
       "Hi, I’m Faizan. Faiz Archives is my personal repository, a place to document my process and share selected work over time. Here, you’ll find a curated look at the projects and ideas I’m currently building and exploring.",
   },
-  narrative: {
-    heading: ["Extracting", "Quiet Moments"],
-    cta: "See publications",
-  },
   journalTeaser: {
     heading: ["Stories", "Behind The Lens"],
     cta: "Enter journal",

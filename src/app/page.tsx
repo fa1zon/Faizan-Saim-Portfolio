@@ -50,20 +50,7 @@ export default function Home() {
       </section>
 
       <section className="px-4 py-20 md:px-16 md:py-28">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-[32px] font-light uppercase leading-[0.95] text-paper md:text-[48px]">
-            {site.narrative.heading.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h2>
-          <Link href="/publications" data-roll-host data-cursor="link" className="btn-solid w-fit shrink-0">
-            <RollingText text={site.narrative.cta} className="ui-label" />
-          </Link>
-        </div>
-
-        <div className="mx-auto mt-12 max-w-[1400px]">
+        <div className="mx-auto max-w-[1400px]">
           <ArchiveStack />
         </div>
 
