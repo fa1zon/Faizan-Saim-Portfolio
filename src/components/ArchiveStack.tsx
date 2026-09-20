@@ -13,6 +13,17 @@ const STAGE_RATIO = 16 / 9;
 const STACK_WIDTH_PCT = 32;
 /** Which frame sits on top of the pile — the one picture you see first. */
 const COVER = 2;
+/**
+ * How tall the scroll track is. The stage is pinned for everything past the
+ * first screen of it, so this minus 100vh is how far you scroll while the
+ * section holds still.
+ */
+const TRACK_VH = 220;
+/**
+ * The share of the pinned scroll spent opening the pile. The remainder is
+ * the pause: fully open, still pinned, before the page moves on.
+ */
+const OPEN_BY = 0.5;
 
 type Piece = {
   work: (typeof works)[number];
@@ -73,8 +84,9 @@ function frameStyle(p: Piece, i: number) {
 function Frame({ p, i, progress }: { p: Piece; i: number; progress: MotionValue<number> }) {
   const from = stackOffset(p);
   // Frames land one after another rather than all together, so the pile
-  // peels open instead of snapping.
-  const end = Math.min(0.6 + i * 0.05, 0.98);
+  // peels open instead of snapping — and they are all home by OPEN_BY,
+  // which is what leaves the rest of the pinned scroll as a held beat.
+  const end = Math.min(OPEN_BY - 0.16 + i * 0.02, OPEN_BY);
 
   const x = useTransform(progress, [0, end], [from.x, "0%"]);
   const y = useTransform(progress, [0, end], [from.y, "0%"]);
@@ -87,39 +99,60 @@ function Frame({ p, i, progress }: { p: Piece; i: number; progress: MotionValue<
   );
 }
 
+/** The stage never gets taller than the screen, and keeps its ratio exactly. */
+const STAGE = "relative mx-auto aspect-[16/9] w-[min(100%,142vh)]";
+
 /**
  * The archive opener. Every frame starts stacked dead centre at the same
  * size, so the section reads as a single photograph — with the "Enter
  * Archives" button underneath the pile, covered rather than hidden.
- * Scrolling drives the whole thing open: each frame slides and shrinks into
- * its own slot in the scatter, uncovering the button, which is why it looks
- * like it was under the picture the whole time. Scrolling back up closes it
- * again.
+ *
+ * The stage pins to the screen for the length of the track, and that pinned
+ * scroll drives the whole thing open: each frame slides and shrinks into its
+ * own slot in the scatter, uncovering the button, which is why it looks like
+ * it was under the picture the whole time. The pile is fully open half way
+ * through, so the rest of the pinned scroll is a held beat on the finished
+ * scatter before the page carries on. Scrolling back up closes it again.
  */
 export default function ArchiveStack() {
-  const stage = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
-  const { scrollYProgress } = useScroll({ target: stage, offset: ["start 0.75", "start 0.05"] });
+  const { scrollYProgress } = useScroll({ target: track, offset: ["start start", "end end"] });
   const progress = useSpring(scrollYProgress, { stiffness: 70, damping: 22, mass: 0.5 });
 
-  return (
-    <div ref={stage} className="relative aspect-[16/9] w-full">
-      <div className="absolute inset-0 z-0 flex items-center justify-center">
-        <Link href="/archive" data-roll-host data-cursor="link" className="btn-solid">
-          <RollingText text="Enter Archives" className="ui-label" />
-        </Link>
-      </div>
+  const button = (
+    <div className="absolute inset-0 z-0 flex items-center justify-center">
+      <Link href="/archive" data-roll-host data-cursor="link" className="btn-solid">
+        <RollingText text="Enter Archives" className="ui-label" />
+      </Link>
+    </div>
+  );
 
-      {pieces.map((p, i) =>
-        reduceMotion ? (
+  // Nothing to pin or drive when the frames never move.
+  if (reduceMotion) {
+    return (
+      <div className={STAGE}>
+        {button}
+        {pieces.map((p, i) => (
           <div key={p.work.slug} className="absolute overflow-hidden" style={frameStyle(p, i)}>
             <Image src={p.work.cover} alt={p.work.title} fill sizes="30vw" className="object-cover" />
           </div>
-        ) : (
-          <Frame key={p.work.slug} p={p} i={i} progress={progress} />
-        ),
-      )}
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div ref={track} className="relative" style={{ height: `${TRACK_VH}vh` }}>
+      <div className="sticky top-0 flex h-screen items-center">
+        <div className={STAGE}>
+          {button}
+          {pieces.map((p, i) => (
+            <Frame key={p.work.slug} p={p} i={i} progress={progress} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
