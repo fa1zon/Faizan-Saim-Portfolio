@@ -25,24 +25,25 @@ export default function Home() {
         <HeroMarquee />
       </section>
 
-      {/* The introduction: a statement set low on the page, with a portrait
-          running the full height of the right-hand edge. */}
-      <section className="relative overflow-hidden">
-        <div className="flex items-end px-4 pb-14 pt-16 md:min-h-screen md:pb-24 md:pl-[28%] md:pr-[40vw] md:pt-24">
+      {/* The introduction. The portrait holds still against the right-hand
+          edge for most of a screen's worth of scrolling while the statement
+          rides up past it — the break in the scroll before the archive. */}
+      <section className="relative md:grid md:grid-cols-[1fr_31vw]">
+        <div className="px-4 pb-14 pt-16 md:pb-[90vh] md:pl-[24%] md:pr-12 md:pt-[82vh]">
           <p
             data-reveal
-            className="enter-lift font-display text-[24px] font-light uppercase leading-[1.25] text-paper md:text-[34px]"
+            className="enter-lift max-w-[440px] font-display text-[24px] font-light uppercase leading-[1.25] text-paper md:text-[34px]"
           >
             {site.hero.lead.replace(/\*\*/g, "")}
           </p>
         </div>
 
-        <div className="relative h-[60vh] w-full md:absolute md:inset-y-0 md:right-0 md:h-auto md:w-[34vw]">
+        <div className="relative h-[60vh] w-full md:sticky md:top-0 md:h-screen md:self-start">
           <Image
             src="/media/about.jpg"
             alt={site.name}
             fill
-            sizes="(max-width: 767px) 100vw, 34vw"
+            sizes="(max-width: 767px) 100vw, 31vw"
             className="object-cover"
           />
         </div>
