@@ -29,12 +29,12 @@ export default function Home() {
           edge for most of a screen's worth of scrolling while the statement
           rides up past it — the break in the scroll before the archive. */}
       <section className="relative md:grid md:grid-cols-[1fr_31vw]">
-        <div className="px-4 pb-14 pt-16 md:pb-[90vh] md:pl-[24%] md:pr-12 md:pt-[82vh]">
+        <div className="px-4 pb-14 pt-16 md:pb-[90vh] md:pl-[24%] md:pr-12 md:pt-[62vh]">
           <p
             data-reveal
             className="enter-lift max-w-[440px] font-display text-[24px] font-light uppercase leading-[1.25] text-paper md:text-[34px]"
           >
-            {site.hero.lead.replace(/\*\*/g, "")}
+            {site.hero.lead}
           </p>
         </div>
 

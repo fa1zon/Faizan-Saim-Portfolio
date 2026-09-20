@@ -20,7 +20,7 @@ export const site = {
   hero: {
     heading: ["Light Through", "The Frame"],
     lead:
-      "Hi, I'm **Faizan Saim**, a photographer and filmmaker. My focus is real faces, natural light, and unposed moments — frames that show what everyday life really looks like.",
+      "Hi, I’m Faizan. Faiz Archives is my personal repository, a place to document my process and share selected work over time. Here, you’ll find a curated look at the projects and ideas I’m currently building and exploring.",
   },
   narrative: {
     heading: ["Extracting", "Quiet Moments"],
