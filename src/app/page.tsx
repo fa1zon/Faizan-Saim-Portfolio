@@ -25,29 +25,27 @@ export default function Home() {
         <HeroMarquee />
       </section>
 
-      <section className="mx-auto flex max-w-[1400px] items-start gap-5 px-4 py-20 md:px-16 md:py-28">
-        <Image
-          src={site.avatar}
-          alt={site.name}
-          width={80}
-          height={80}
-          className="h-16 w-16 shrink-0 rounded-full object-cover md:h-20 md:w-20"
-        />
-        <p
-          data-reveal
-          className="enter-lift body-copy max-w-[560px] text-[18px] md:text-[22px]"
-          style={{ "--enter-delay": "0.1s" } as React.CSSProperties}
-        >
-          {site.hero.lead.split("**").map((part, i) =>
-            i % 2 === 1 ? (
-              <strong key={i} className="font-normal text-paper">
-                {part}
-              </strong>
-            ) : (
-              <span key={i}>{part}</span>
-            ),
-          )}
-        </p>
+      {/* The introduction: a statement set low on the page, with a portrait
+          running the full height of the right-hand edge. */}
+      <section className="relative overflow-hidden">
+        <div className="flex items-end px-4 pb-14 pt-16 md:min-h-screen md:pb-24 md:pl-[28%] md:pr-[40vw] md:pt-24">
+          <p
+            data-reveal
+            className="enter-lift font-display text-[24px] font-light uppercase leading-[1.25] text-paper md:text-[34px]"
+          >
+            {site.hero.lead.replace(/\*\*/g, "")}
+          </p>
+        </div>
+
+        <div className="relative h-[60vh] w-full md:absolute md:inset-y-0 md:right-0 md:h-auto md:w-[34vw]">
+          <Image
+            src="/media/about.jpg"
+            alt={site.name}
+            fill
+            sizes="(max-width: 767px) 100vw, 34vw"
+            className="object-cover"
+          />
+        </div>
       </section>
 
       <section className="px-4 py-20 md:px-16 md:py-28">
