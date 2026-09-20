@@ -134,8 +134,21 @@
   to { transform: translateX(-50%); }
 }
 
+/* One knob for the whole hero strip: every frame is this wide, a portrait is
+   1.5x this tall, and the strip is the height of a portrait. Phones get a
+   bigger share of the screen so the frames stay legible. */
+.hero-strip {
+  --hero-w: 20vw;
+}
+
+@media (max-width: 900px) {
+  .hero-strip {
+    --hero-w: 42vw;
+  }
+}
+
 .hero-marquee-track {
-  animation: hero-marquee 90s linear infinite;
+  animation: hero-marquee 105s linear infinite;
 }
 
 .hero-marquee-track.is-pressed {

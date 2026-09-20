@@ -1,23 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
-import RollingText from "./RollingText";
 import { works } from "@/data/site";
 
-type Slot = { work: (typeof works)[number]; widthVw: number; topVh: number; aspect: string };
+type Slot = { work: (typeof works)[number]; aspect: string; baseline?: boolean };
 
-/** Loose two-tier scatter, widths/offsets in viewport units so it scales with the screen. */
+/** Height of the strip, and of a portrait frame: 1.5 frame-widths. */
+const STRIP_HEIGHT = "calc(var(--hero-w) * 1.5)";
+/** Hangs a landscape frame off the baseline rather than the top of the strip. */
+const BASELINE_DROP = "calc(var(--hero-w) * 1.5 - var(--hero-w) / 1.5)";
+
+/**
+ * Tall portraits alternating with short landscapes, the landscapes hung from
+ * the top and the baseline in turn. Every frame is one `--hero-w` wide (see
+ * .hero-strip in globals.css), so the whole rhythm scales off a single knob.
+ */
 const slots: Slot[] = [
-  { work: works[18], widthVw: 19, topVh: 0, aspect: "4 / 5" },
-  { work: works[6], widthVw: 11, topVh: 15, aspect: "3 / 4" },
-  { work: works[16], widthVw: 16, topVh: 4, aspect: "4 / 5" },
-  { work: works[9], widthVw: 16, topVh: 0, aspect: "4 / 5" },
-  { work: works[24], widthVw: 14, topVh: 32, aspect: "3 / 4" },
-  { work: works[2], widthVw: 18, topVh: 20, aspect: "3 / 4" },
-  { work: works[19], widthVw: 22, topVh: 32, aspect: "1 / 1" },
-  { work: works[27], widthVw: 18, topVh: 34, aspect: "4 / 5" },
+  { work: works[18], aspect: "3 / 2" },
+  { work: works[6], aspect: "2 / 3" },
+  { work: works[16], aspect: "3 / 2", baseline: true },
+  { work: works[9], aspect: "2 / 3" },
+  { work: works[24], aspect: "3 / 2" },
+  { work: works[2], aspect: "2 / 3" },
+  { work: works[19], aspect: "3 / 2", baseline: true },
+  { work: works[27], aspect: "2 / 3" },
 ];
 
 function Frame({ s, i, reveal }: { s: Slot; i: number; reveal?: boolean }) {
@@ -27,8 +34,8 @@ function Frame({ s, i, reveal }: { s: Slot; i: number; reveal?: boolean }) {
       style={
         {
           "--enter-delay": reveal ? `${0.15 + i * 0.05}s` : undefined,
-          width: `${s.widthVw}vw`,
-          marginTop: `${s.topVh}vh`,
+          width: "var(--hero-w)",
+          marginTop: s.baseline ? BASELINE_DROP : undefined,
           aspectRatio: s.aspect,
         } as React.CSSProperties
       }
@@ -39,7 +46,7 @@ function Frame({ s, i, reveal }: { s: Slot; i: number; reveal?: boolean }) {
         alt={s.work.title}
         fill
         priority={reveal && i < 4}
-        sizes="30vw"
+        sizes="20vw"
         className="object-cover"
       />
     </div>
@@ -103,30 +110,27 @@ export default function HeroMarquee() {
   return (
     <div
       data-reveal
-      style={{ "--enter-delay": "0.1s" } as React.CSSProperties}
-      className="enter-fade relative h-[62vh] min-h-[420px] max-h-[720px]"
+      style={{ "--enter-delay": "0.1s", height: STRIP_HEIGHT } as React.CSSProperties}
+      className="hero-strip enter-fade relative"
     >
       <div
         ref={outer}
         className="h-full overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:px-16"
         style={{ cursor: "grab", touchAction: "pan-x" }}
       >
-        <div ref={track} className="hero-marquee-track flex h-full w-max items-start gap-[3vw]">
+        <div
+          ref={track}
+          className="hero-marquee-track flex h-full w-max items-start gap-[calc(var(--hero-w)*0.125)]"
+        >
           {slots.map((s, i) => (
             <Frame key={`a-${s.work.slug}-${i}`} s={s} i={i} reveal />
           ))}
-          <div className="w-[3vw] shrink-0" aria-hidden />
+          <div className="w-[calc(var(--hero-w)*0.125)] shrink-0" aria-hidden />
           {slots.map((s, i) => (
             <Frame key={`b-${s.work.slug}-${i}`} s={s} i={i} />
           ))}
-          <div className="w-[3vw] shrink-0" aria-hidden />
+          <div className="w-[calc(var(--hero-w)*0.125)] shrink-0" aria-hidden />
         </div>
-      </div>
-
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-        <Link href="/archive" data-roll-host data-cursor="link" className="btn-solid pointer-events-auto">
-          <RollingText text="Enter Archives" className="ui-label" />
-        </Link>
       </div>
     </div>
   );

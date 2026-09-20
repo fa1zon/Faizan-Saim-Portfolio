@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HeroMarquee from "@/components/HeroMarquee";
+import ArchiveStack from "@/components/ArchiveStack";
 import PublicationRow from "@/components/PublicationRow";
 import JournalCard from "@/components/JournalCard";
 import RollingText from "@/components/RollingText";
@@ -61,6 +62,10 @@ export default function Home() {
           <Link href="/publications" data-roll-host data-cursor="link" className="btn-solid w-fit shrink-0">
             <RollingText text={site.narrative.cta} className="ui-label" />
           </Link>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-[1400px]">
+          <ArchiveStack />
         </div>
 
         <div className="mx-auto mt-4 max-w-[1400px]">
