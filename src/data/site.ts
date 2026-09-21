@@ -11,11 +11,7 @@ export const site = {
   role: "Photographer & Filmmaker",
   avatar: "/media/avatar.jpg",
   email: "hello@faizan.studio",
-  socials: [
-    { label: "Instagram", href: "https://instagram.com", icon: "instagram" },
-    { label: "X", href: "https://x.com", icon: "x" },
-    { label: "Behance", href: "https://behance.net", icon: "behance" },
-  ],
+  socials: [{ label: "Instagram", href: "https://www.instagram.com/faizarchives/", icon: "instagram" }],
   tagline: "Catch me in the archives. Let's connect.",
   hero: {
     heading: ["Light Through", "The Frame"],
