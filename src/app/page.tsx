@@ -2,9 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import HeroMarquee from "@/components/HeroMarquee";
 import ArchiveStack from "@/components/ArchiveStack";
-import JournalCard from "@/components/JournalCard";
 import RollingText from "@/components/RollingText";
-import { site, journalPosts } from "@/data/site";
+import { site } from "@/data/site";
 
 export default function Home() {
   return (
@@ -51,27 +50,6 @@ export default function Home() {
       <section className="px-4 py-20 md:px-16 md:py-28">
         <div className="mx-auto max-w-[1400px]">
           <ArchiveStack />
-        </div>
-      </section>
-
-      <section className="px-4 py-20 md:px-16 md:py-28">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <h2 className="font-display text-[32px] font-light uppercase leading-[0.95] text-paper md:text-[48px]">
-            {site.journalTeaser.heading.map((line) => (
-              <span key={line} className="block">
-                {line}
-              </span>
-            ))}
-          </h2>
-          <Link href="/journal" data-roll-host data-cursor="link" className="btn-solid w-fit shrink-0">
-            <RollingText text={site.journalTeaser.cta} className="ui-label" />
-          </Link>
-        </div>
-
-        <div className="mx-auto mt-12 grid max-w-[1400px] grid-cols-1 gap-10 md:grid-cols-2">
-          {journalPosts.slice(0, 2).map((post, i) => (
-            <JournalCard key={post.slug} post={post} index={i} />
-          ))}
         </div>
       </section>
 
