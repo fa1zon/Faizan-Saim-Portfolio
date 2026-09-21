@@ -343,7 +343,7 @@ export const interviews: Interview[] = [
 ];
 
 export const contact = {
-  headline: "Open for commissions, print inquiries, and creative collaborations. Let's make something real.",
+  headline: "Every project starts with a conversation, let's bring your vision to life.",
   coffee: "Grab a coffee & let's talk about the craft.",
   faqs: [
     {
