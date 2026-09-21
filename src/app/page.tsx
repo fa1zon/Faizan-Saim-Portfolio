@@ -2,10 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import HeroMarquee from "@/components/HeroMarquee";
 import ArchiveStack from "@/components/ArchiveStack";
-import PublicationRow from "@/components/PublicationRow";
 import JournalCard from "@/components/JournalCard";
 import RollingText from "@/components/RollingText";
-import { site, publications, journalPosts } from "@/data/site";
+import { site, journalPosts } from "@/data/site";
 
 export default function Home() {
   return (
@@ -52,12 +51,6 @@ export default function Home() {
       <section className="px-4 py-20 md:px-16 md:py-28">
         <div className="mx-auto max-w-[1400px]">
           <ArchiveStack />
-        </div>
-
-        <div className="mx-auto mt-4 max-w-[1400px]">
-          {publications.slice(0, 2).map((pub, i) => (
-            <PublicationRow key={pub.slug} pub={pub} reverse={i % 2 === 1} index={i} />
-          ))}
         </div>
       </section>
 
