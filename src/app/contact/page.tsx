@@ -26,29 +26,6 @@ export default function ContactPage() {
           <ContactForm />
         </div>
       </div>
-
-      <div className="mx-auto mt-24 max-w-[860px] md:mt-32">
-        <h2 className="font-display text-[28px] font-light uppercase leading-[1.05] text-paper md:text-[36px]">
-          Frequently Asked Questions
-        </h2>
-
-        <div className="mt-8 flex flex-col">
-          {contact.faqs.map((f, i) => (
-            <details
-              key={f.q}
-              data-reveal
-              style={{ "--enter-delay": `${i * 0.06}s` } as React.CSSProperties}
-              className="enter-lift group border-t border-line py-6 last:border-b"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-[17px] font-normal text-paper md:text-[19px]">
-                {f.q}
-                <span className="shrink-0 text-muted transition-transform duration-300 ease-framer group-open:rotate-45">+</span>
-              </summary>
-              <p className="body-copy mt-4 text-[15px] md:text-[16px]">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
     </main>
   );
 }
