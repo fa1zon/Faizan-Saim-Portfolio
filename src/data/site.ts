@@ -14,7 +14,7 @@ export const site = {
   socials: [{ label: "Instagram", href: "https://www.instagram.com/faizarchives/", icon: "instagram" }],
   tagline: "Catch me in the archives. Let's connect.",
   hero: {
-    heading: ["Light Through", "The Frame"],
+    heading: ["Moments", "In Motion"],
     lead:
       "Hi, I’m Faizan. Faiz Archives is my personal repository, a place to document my process and share selected work over time. Here, you’ll find a curated look at the projects and ideas I’m currently building and exploring.",
   },
