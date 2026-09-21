@@ -10,10 +10,6 @@ import { EASE, rowEnter } from "@/lib/motion";
 
 const nav = [
   { label: "Archive", href: "/archive" },
-  { label: "Publications", href: "/publications" },
-  { label: "Journal", href: "/journal" },
-  { label: "Workshops", href: "/workshops" },
-  { label: "Interviews", href: "/interviews" },
   { label: "Contact", href: "/contact" },
 ];
 
