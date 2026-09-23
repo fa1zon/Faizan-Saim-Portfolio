@@ -40,18 +40,18 @@ export type Work = {
 };
 
 export const works: Work[] = [
-  { slug: "aruba-dusk", title: "Dusk", category: "ARUBA", cover: "/work/aruba.jpg" },
-  { slug: "aruba-shore", title: "Shore", category: "ARUBA", cover: "/work/aruba-1.jpg" },
-  { slug: "aruba-water", title: "Water", category: "ARUBA", cover: "/work/aruba-2.jpg" },
-  { slug: "aruba-sand", title: "Sand", category: "ARUBA", cover: "/work/aruba-3.jpg" },
+  { slug: "aruba-1", title: "Aruba 01", category: "ARUBA", cover: "/work/aruba-1.jpg" },
+  { slug: "aruba-2", title: "Aruba 02", category: "ARUBA", cover: "/work/aruba-2.jpg" },
+  { slug: "aruba-3", title: "Aruba 03", category: "ARUBA", cover: "/work/aruba-3.jpg" },
+  { slug: "aruba-4", title: "Aruba 04", category: "ARUBA", cover: "/work/aruba-4.jpg" },
 
-  { slug: "balloons", title: "Balloons", category: "TURKEY", cover: "/hero/balloons.jpg" },
-  { slug: "balloons-dawn", title: "Dawn", category: "TURKEY", cover: "/archive/balloons-dawn.jpg" },
-  { slug: "balloon-valley", title: "Valley", category: "TURKEY", cover: "/archive/balloon-valley.jpg" },
-  { slug: "doorway", title: "Doorway", category: "TURKEY", cover: "/archive/doorway.jpg" },
-  { slug: "mosque", title: "Mosque", category: "TURKEY", cover: "/hero/mosque.jpg" },
-  { slug: "wing", title: "Wing", category: "TURKEY", cover: "/hero/wing.jpg" },
-  { slug: "cat", title: "Cat", category: "TURKEY", cover: "/archive/cat.jpg" },
+  { slug: "balloons", title: "Balloons", category: "TURKEY", cover: "/turkey/balloons.jpg" },
+  { slug: "balloons-dawn", title: "Dawn", category: "TURKEY", cover: "/turkey/balloons-dawn.jpg" },
+  { slug: "balloon-valley", title: "Valley", category: "TURKEY", cover: "/turkey/balloon-valley.jpg" },
+  { slug: "doorway", title: "Doorway", category: "TURKEY", cover: "/turkey/doorway.jpg" },
+  { slug: "mosque", title: "Mosque", category: "TURKEY", cover: "/turkey/mosque.jpg" },
+  { slug: "wing", title: "Wing", category: "TURKEY", cover: "/turkey/wing.jpg" },
+  { slug: "cat", title: "Cat", category: "TURKEY", cover: "/turkey/cat.jpg" },
 
   { slug: "turkey-01", title: "Turkey 01", category: "TURKEY", cover: "/turkey/turkey-01.jpg" },
   { slug: "turkey-02", title: "Turkey 02", category: "TURKEY", cover: "/turkey/turkey-02.jpg" },
