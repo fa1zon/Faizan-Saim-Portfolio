@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { works } from "@/data/site";
 
-type Slot = { work: (typeof works)[number]; aspect: string; baseline?: boolean };
+type Slot = { src: string; alt: string; aspect: string; baseline?: boolean };
 
 /** Height of the strip, and of a portrait frame: 1.5 frame-widths. */
 const STRIP_HEIGHT = "calc(var(--hero-w) * 1.5)";
@@ -15,16 +14,21 @@ const BASELINE_DROP = "calc(var(--hero-w) * 1.5 - var(--hero-w) / 1.5)";
  * Tall portraits alternating with short landscapes, the landscapes hung from
  * the top and the baseline in turn. Every frame is one `--hero-w` wide (see
  * .hero-strip in globals.css), so the whole rhythm scales off a single knob.
+ *
+ * Each file is cut to the exact ratio of the slot it sits in — 3:2 for the
+ * landscapes, 2:3 for the portraits — so nothing is cropped. Swapping a photo
+ * means dropping a file into /public/hero and changing the name here; the
+ * order below is what the strip runs in.
  */
 const slots: Slot[] = [
-  { work: works[18], aspect: "3 / 2" },
-  { work: works[6], aspect: "2 / 3" },
-  { work: works[16], aspect: "3 / 2", baseline: true },
-  { work: works[9], aspect: "2 / 3" },
-  { work: works[24], aspect: "3 / 2" },
-  { work: works[2], aspect: "2 / 3" },
-  { work: works[19], aspect: "3 / 2", baseline: true },
-  { work: works[27], aspect: "2 / 3" },
+  { src: "/hero/balloons.jpg", alt: "Balloons over Cappadocia at dawn", aspect: "3 / 2" },
+  { src: "/hero/oia-dome.jpg", alt: "A blue dome above the caldera in Oia", aspect: "2 / 3" },
+  { src: "/hero/wing.jpg", alt: "A wing over the mountains", aspect: "3 / 2", baseline: true },
+  { src: "/hero/pines.jpg", alt: "Sun through the pines", aspect: "2 / 3" },
+  { src: "/hero/coastline.jpg", alt: "An empty stretch of coastline", aspect: "3 / 2" },
+  { src: "/hero/mosque.jpg", alt: "Light inside the mosque", aspect: "2 / 3" },
+  { src: "/hero/oia-rooftops.jpg", alt: "Rooftops stepping down to the sea", aspect: "3 / 2", baseline: true },
+  { src: "/hero/palms.jpg", alt: "Palms on the beach at dusk", aspect: "2 / 3" },
 ];
 
 function Frame({ s, i, reveal }: { s: Slot; i: number; reveal?: boolean }) {
@@ -42,11 +46,11 @@ function Frame({ s, i, reveal }: { s: Slot; i: number; reveal?: boolean }) {
       className={`relative shrink-0 overflow-hidden ${reveal ? "enter-rise" : ""}`}
     >
       <Image
-        src={s.work.cover}
-        alt={s.work.title}
+        src={s.src}
+        alt={s.alt}
         fill
         priority={reveal && i < 4}
-        sizes="20vw"
+        sizes="(max-width: 900px) 42vw, 20vw"
         className="object-cover"
       />
     </div>
@@ -123,11 +127,11 @@ export default function HeroMarquee() {
           className="hero-marquee-track flex h-full w-max items-start gap-[calc(var(--hero-w)*0.125)]"
         >
           {slots.map((s, i) => (
-            <Frame key={`a-${s.work.slug}-${i}`} s={s} i={i} reveal />
+            <Frame key={`a-${s.src}`} s={s} i={i} reveal />
           ))}
           <div className="w-[calc(var(--hero-w)*0.125)] shrink-0" aria-hidden />
           {slots.map((s, i) => (
-            <Frame key={`b-${s.work.slug}-${i}`} s={s} i={i} />
+            <Frame key={`b-${s.src}`} s={s} i={i} />
           ))}
           <div className="w-[calc(var(--hero-w)*0.125)] shrink-0" aria-hidden />
         </div>
