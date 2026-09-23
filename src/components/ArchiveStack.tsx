@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, useReducedMotion, type MotionValue } from "motion/react";
 import RollingText from "./RollingText";
-import { works } from "@/data/site";
 
 /**
  * How tall the scroll track is. The stage is pinned for everything past the
@@ -20,7 +19,8 @@ const TRACK_VH = 220;
 const OPEN_BY = 0.5;
 
 type Piece = {
-  work: (typeof works)[number];
+  src: string;
+  alt: string;
   /** Resting slot, as a share of the stage box. */
   leftPct: number;
   topPct: number;
@@ -52,15 +52,15 @@ const DESKTOP: Layout = {
   stackWidthPct: 32,
   cover: 2,
   pieces: [
-    { work: works[0], leftPct: 3, topPct: 4, widthPct: 18, ratio: 0.8 },
-    { work: works[3], leftPct: 24, topPct: 14, widthPct: 16, ratio: 0.75 },
-    { work: works[5], leftPct: 44, topPct: 0, widthPct: 13, ratio: 0.75 },
-    { work: works[10], leftPct: 60, topPct: 3, widthPct: 17, ratio: 1 },
-    { work: works[13], leftPct: 80, topPct: 10, widthPct: 17, ratio: 0.75 },
-    { work: works[15], leftPct: 4, topPct: 56, widthPct: 17, ratio: 0.75 },
-    { work: works[22], leftPct: 25, topPct: 60, widthPct: 16, ratio: 0.8 },
-    { work: works[27], leftPct: 46, topPct: 59, widthPct: 18, ratio: 0.8 },
-    { work: works[30], leftPct: 68, topPct: 56, widthPct: 18, ratio: 1 },
+    { src: "/archive/cacti.jpg", alt: "Cactus against the sky", leftPct: 3, topPct: 4, widthPct: 18, ratio: 0.8 },
+    { src: "/archive/doorway.jpg", alt: "A stone doorway in the sun", leftPct: 24, topPct: 14, widthPct: 16, ratio: 0.75 },
+    { src: "/archive/balloon-valley.jpg", alt: "A balloon over the valley", leftPct: 44, topPct: 0, widthPct: 13, ratio: 0.75 },
+    { src: "/archive/oia-aerial.jpg", alt: "Oia from above", leftPct: 60, topPct: 3, widthPct: 17, ratio: 1.5 },
+    { src: "/archive/caldera-cliff.jpg", alt: "Cliffs above the caldera", leftPct: 80, topPct: 10, widthPct: 17, ratio: 0.75 },
+    { src: "/archive/shoreline.jpg", alt: "The shoreline at dusk", leftPct: 4, topPct: 56, widthPct: 17, ratio: 0.75 },
+    { src: "/archive/cat.jpg", alt: "A cat asleep on the stone", leftPct: 25, topPct: 60, widthPct: 16, ratio: 0.8 },
+    { src: "/hero/palms.jpg", alt: "Palms on the beach at dusk", leftPct: 46, topPct: 59, widthPct: 18, ratio: 0.8 },
+    { src: "/archive/balloons-dawn.jpg", alt: "Balloons filling at dawn", leftPct: 68, topPct: 56, widthPct: 18, ratio: 1 },
   ],
 };
 
@@ -74,16 +74,16 @@ const MOBILE: Layout = {
   stageRatio: 2 / 3,
   maxWidth: "56vh",
   stackWidthPct: 60,
-  cover: 1,
+  cover: 0,
   pieces: [
-    { work: works[0], leftPct: 2, topPct: 6, widthPct: 30, ratio: 0.75 },
-    { work: works[5], leftPct: 38, topPct: 12, widthPct: 26, ratio: 0.8 },
-    { work: works[10], leftPct: 68, topPct: 4, widthPct: 30, ratio: 0.75 },
-    { work: works[13], leftPct: 0, topPct: 42, widthPct: 22, ratio: 0.8 },
-    { work: works[3], leftPct: 78, topPct: 44, widthPct: 22, ratio: 0.75 },
-    { work: works[15], leftPct: 3, topPct: 70, widthPct: 28, ratio: 0.75 },
-    { work: works[27], leftPct: 36, topPct: 66, widthPct: 30, ratio: 0.8 },
-    { work: works[30], leftPct: 70, topPct: 72, widthPct: 28, ratio: 1 },
+    { src: "/archive/cacti.jpg", alt: "Cactus against the sky", leftPct: 2, topPct: 6, widthPct: 30, ratio: 0.75 },
+    { src: "/archive/doorway.jpg", alt: "A stone doorway in the sun", leftPct: 38, topPct: 12, widthPct: 26, ratio: 0.8 },
+    { src: "/archive/balloon-valley.jpg", alt: "A balloon over the valley", leftPct: 68, topPct: 4, widthPct: 30, ratio: 0.75 },
+    { src: "/archive/caldera-cliff.jpg", alt: "Cliffs above the caldera", leftPct: 0, topPct: 42, widthPct: 22, ratio: 0.8 },
+    { src: "/archive/shoreline.jpg", alt: "The shoreline at dusk", leftPct: 78, topPct: 44, widthPct: 22, ratio: 0.75 },
+    { src: "/archive/cat.jpg", alt: "A cat asleep on the stone", leftPct: 3, topPct: 70, widthPct: 28, ratio: 0.75 },
+    { src: "/hero/palms.jpg", alt: "Palms on the beach at dusk", leftPct: 36, topPct: 66, widthPct: 30, ratio: 0.8 },
+    { src: "/archive/balloons-dawn.jpg", alt: "Balloons filling at dawn", leftPct: 70, topPct: 72, widthPct: 28, ratio: 1 },
   ],
 };
 
@@ -130,7 +130,7 @@ function Frame({ p, i, l, progress }: { p: Piece; i: number; l: Layout; progress
 
   return (
     <motion.div className="absolute overflow-hidden" style={{ ...frameStyle(p, i, l), x, y, scale }}>
-      <Image src={p.work.cover} alt={p.work.title} fill sizes={SIZES} className="object-cover" />
+      <Image src={p.src} alt={p.alt} fill sizes={SIZES} className="object-cover" />
     </motion.div>
   );
 }
@@ -225,8 +225,8 @@ export default function ArchiveStack() {
   if (reduceMotion) {
     return stage(
       layout.pieces.map((p, i) => (
-        <div key={p.work.slug} className="absolute overflow-hidden" style={frameStyle(p, i, layout)}>
-          <Image src={p.work.cover} alt={p.work.title} fill sizes={SIZES} className="object-cover" />
+        <div key={p.src} className="absolute overflow-hidden" style={frameStyle(p, i, layout)}>
+          <Image src={p.src} alt={p.alt} fill sizes={SIZES} className="object-cover" />
         </div>
       )),
     );
@@ -237,7 +237,7 @@ export default function ArchiveStack() {
       <div className="sticky top-0 flex h-screen items-center">
         {stage(
           layout.pieces.map((p, i) => (
-            <Frame key={`${layout.stageRatio}-${p.work.slug}`} p={p} i={i} l={layout} progress={progress} />
+            <Frame key={`${layout.stageRatio}-${p.src}`} p={p} i={i} l={layout} progress={progress} />
           )),
         )}
       </div>
