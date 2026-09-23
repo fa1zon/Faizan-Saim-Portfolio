@@ -170,6 +170,18 @@ html[data-frames="paused"] [data-reveal="expand"] {
   height: auto !important;
 }
 
+/* --- Lightbox -----------------------------------------------------------
+   While a photograph is open full screen, the fixed site header would
+   otherwise float over it — the wordmark and the menu button sit in the
+   same corner as the close control. Hidden rather than lowered, so it
+   can't take the click either. */
+body[data-lightbox="open"] [data-site-header] {
+  /* `!important` because the header's entrance animation fills its own
+     opacity, and a filled animation value beats a normal declaration. */
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
 /* --- Rolling text ------------------------------------------------------- */
 .roll-inner {
   transform: translateY(0);

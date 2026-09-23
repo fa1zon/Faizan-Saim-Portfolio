@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import type { Work } from "@/data/site";
 import { EASE } from "@/lib/motion";
@@ -27,6 +28,11 @@ export default function Lightbox({
 }) {
   const open = index !== null;
   const item = open ? items[index] : null;
+  // Portalled to the body: rendered in place it would be trapped inside
+  // PageTransition's stacking context, which sits under the fixed header —
+  // so the header's menu button covered the close control.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const step = useCallback(
     (delta: number) => {
@@ -45,17 +51,22 @@ export default function Lightbox({
       if (e.key === "ArrowLeft") step(-1);
     };
 
-    // The page behind must not scroll while this is over it.
+    // The page behind must not scroll while this is over it, and the site
+    // header is hidden so nothing floats over the photograph.
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.dataset.lightbox = "open";
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
+      delete document.body.dataset.lightbox;
       window.removeEventListener("keydown", onKey);
     };
   }, [open, onClose, step]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {item && (
         <motion.div
@@ -132,6 +143,7 @@ export default function Lightbox({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
