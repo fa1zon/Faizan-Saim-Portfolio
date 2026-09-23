@@ -8,7 +8,9 @@ import { site } from "@/data/site";
 export default function Home() {
   return (
     <main>
-      <section className="flex flex-col gap-8 pb-[6px] pt-28 md:pt-40">
+      {/* Holds the first screen on its own, so the introduction below can't
+          peek up under the strip before you've scrolled to it. */}
+      <section className="flex min-h-screen flex-col gap-8 pb-[6px] pt-28 md:pt-40">
         <h1
           data-reveal
           className="enter-lift px-4 font-display text-[40px] font-light uppercase leading-[0.95] text-paper md:px-16 md:text-[64px]"
