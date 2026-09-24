@@ -90,7 +90,6 @@ export const works: Work[] = [
   { slug: "turkey-35", title: "Turkey 35", category: "TURKEY", cover: "/turkey/turkey-35.jpg" },
   { slug: "turkey-36", title: "Turkey 36", category: "TURKEY", cover: "/turkey/turkey-36.jpg" },
   { slug: "turkey-37", title: "Turkey 37", category: "TURKEY", cover: "/turkey/turkey-37.jpg" },
-  { slug: "turkey-38", title: "Turkey 38", category: "TURKEY", cover: "/turkey/turkey-38.jpg" },
   { slug: "turkey-39", title: "Turkey 39", category: "TURKEY", cover: "/turkey/turkey-39.jpg" },
   { slug: "turkey-40", title: "Turkey 40", category: "TURKEY", cover: "/turkey/turkey-40.jpg" },
   { slug: "turkey-41", title: "Turkey 41", category: "TURKEY", cover: "/turkey/turkey-41.jpg" },
