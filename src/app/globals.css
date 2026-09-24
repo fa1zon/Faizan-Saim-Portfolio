@@ -75,6 +75,14 @@
     @apply font-light capitalize leading-[1.6] tracking-[0.2px] text-muted;
   }
 
+  /* The custom pointer's square. Dark glass, to read against the pale page. */
+  .cursor-dot {
+    border: 1px solid var(--line);
+    background: rgba(18, 18, 18, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
   /* Solid pill button — the reference's one recurring call-to-action shape. */
   .btn-solid {
     @apply inline-flex h-11 items-center justify-center gap-3 bg-paper px-6 text-ink transition-opacity duration-300 ease-framer hover:opacity-80;
@@ -180,6 +188,21 @@ body[data-lightbox="open"] [data-site-header] {
      opacity, and a filled animation value beats a normal declaration. */
   opacity: 0 !important;
   pointer-events: none;
+}
+
+/* The OS pointer is hidden site-wide in favour of the custom square, so that
+   square has to stay findable here: the page behind it is near black, which
+   swallows a dark cursor, and the overlay is painted after it in the body so
+   an equal z-index would bury it. Invert it and lift it clear. The ring keeps
+   it legible where the photograph itself is bright. */
+body[data-lightbox="open"] .cursor-dot {
+  border-color: rgba(242, 242, 242, 0.9);
+  /* Outline rather than fill, and no blur: over the close control the square
+     sits on top of the X, and a frosted pane would smear it away. */
+  background: rgba(242, 242, 242, 0.18);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 0 0 1px rgba(18, 18, 18, 0.35);
 }
 
 /* --- Rolling text ------------------------------------------------------- */

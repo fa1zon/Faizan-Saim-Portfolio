@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from "react";
  * The reference replaces the OS pointer with a small glass square that trails
  * the real cursor, grows over interactive elements, and dips on press.
  * Pointer-coarse devices keep their native behaviour.
+ *
+ * Its colours live in CSS (.cursor-dot) rather than inline, so the stylesheet
+ * can invert the square over a full-screen photograph, where the page turns
+ * dark and a dark cursor would be invisible.
  */
 export default function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
@@ -78,17 +82,14 @@ export default function Cursor() {
     <div
       ref={dot}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[100] opacity-0"
+      className="pointer-events-none fixed left-0 top-0 z-[200] opacity-0"
       style={{ transition: "opacity 250ms cubic-bezier(0.44,0,0.22,1)" }}
     >
       <div
-        className="rounded-[3px] border border-line"
+        className="cursor-dot rounded-[3px]"
         style={{
           width: size,
           height: size,
-          background: "rgba(18,18,18,0.35)",
-          backdropFilter: "blur(10px)",
-          WebkitBackdropFilter: "blur(10px)",
           transition: "width 350ms cubic-bezier(0.44,0,0.22,1), height 350ms cubic-bezier(0.44,0,0.22,1)",
         }}
       />
