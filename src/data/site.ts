@@ -16,7 +16,7 @@ export const site = {
   name: "Faizan Saim",
   role: "Photographer & Filmmaker",
   avatar: "/media/avatar.jpg",
-  email: "hello@faizan.studio",
+  email: "Archivesbyfaiz@gmail.com",
   socials: [{ label: "Instagram", href: "https://www.instagram.com/faizarchives/", icon: "instagram" }],
   tagline: "Catch me in the archives. Let's connect.",
   hero: {
