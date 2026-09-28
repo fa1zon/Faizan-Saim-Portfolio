@@ -5,6 +5,12 @@
  */
 
 export const site = {
+  /**
+   * Where the site actually lives. Vercel redirects the bare domain to www,
+   * so www is the canonical form — search engines and link previews should
+   * only ever be handed this one.
+   */
+  url: "https://www.faizarchives.com",
   /** Shown in the header wordmark. */
   wordmark: "FAIZ ARCHIVES",
   name: "Faizan Saim",
