@@ -34,7 +34,7 @@ export const site = {
 } as const;
 
 /** Newest trip first — that's the order the archive lists them in. */
-export const categories = ["ALL", "ARUBA", "TURKEY"] as const;
+export const categories = ["ALL", "TYPE-S", "ARUBA", "TURKEY"] as const;
 
 export type Category = (typeof categories)[number];
 
@@ -46,6 +46,68 @@ export type Work = {
 };
 
 export const works: Work[] = [
+  { slug: "type-s-01", title: "Type S 01", category: "TYPE-S", cover: "/type-s/type-s-01.jpg" },
+  { slug: "type-s-02", title: "Type S 02", category: "TYPE-S", cover: "/type-s/type-s-02.jpg" },
+  { slug: "type-s-03", title: "Type S 03", category: "TYPE-S", cover: "/type-s/type-s-03.jpg" },
+  { slug: "type-s-04", title: "Type S 04", category: "TYPE-S", cover: "/type-s/type-s-04.jpg" },
+  { slug: "type-s-05", title: "Type S 05", category: "TYPE-S", cover: "/type-s/type-s-05.jpg" },
+  { slug: "type-s-06", title: "Type S 06", category: "TYPE-S", cover: "/type-s/type-s-06.jpg" },
+  { slug: "type-s-07", title: "Type S 07", category: "TYPE-S", cover: "/type-s/type-s-07.jpg" },
+  { slug: "type-s-08", title: "Type S 08", category: "TYPE-S", cover: "/type-s/type-s-08.jpg" },
+  { slug: "type-s-09", title: "Type S 09", category: "TYPE-S", cover: "/type-s/type-s-09.jpg" },
+  { slug: "type-s-10", title: "Type S 10", category: "TYPE-S", cover: "/type-s/type-s-10.jpg" },
+  { slug: "type-s-11", title: "Type S 11", category: "TYPE-S", cover: "/type-s/type-s-11.jpg" },
+  { slug: "type-s-12", title: "Type S 12", category: "TYPE-S", cover: "/type-s/type-s-12.jpg" },
+  { slug: "type-s-13", title: "Type S 13", category: "TYPE-S", cover: "/type-s/type-s-13.jpg" },
+  { slug: "type-s-14", title: "Type S 14", category: "TYPE-S", cover: "/type-s/type-s-14.jpg" },
+  { slug: "type-s-15", title: "Type S 15", category: "TYPE-S", cover: "/type-s/type-s-15.jpg" },
+  { slug: "type-s-16", title: "Type S 16", category: "TYPE-S", cover: "/type-s/type-s-16.jpg" },
+  { slug: "type-s-17", title: "Type S 17", category: "TYPE-S", cover: "/type-s/type-s-17.jpg" },
+  { slug: "type-s-18", title: "Type S 18", category: "TYPE-S", cover: "/type-s/type-s-18.jpg" },
+  { slug: "type-s-19", title: "Type S 19", category: "TYPE-S", cover: "/type-s/type-s-19.jpg" },
+  { slug: "type-s-20", title: "Type S 20", category: "TYPE-S", cover: "/type-s/type-s-20.jpg" },
+  { slug: "type-s-21", title: "Type S 21", category: "TYPE-S", cover: "/type-s/type-s-21.jpg" },
+  { slug: "type-s-22", title: "Type S 22", category: "TYPE-S", cover: "/type-s/type-s-22.jpg" },
+  { slug: "type-s-23", title: "Type S 23", category: "TYPE-S", cover: "/type-s/type-s-23.jpg" },
+  { slug: "type-s-24", title: "Type S 24", category: "TYPE-S", cover: "/type-s/type-s-24.jpg" },
+  { slug: "type-s-25", title: "Type S 25", category: "TYPE-S", cover: "/type-s/type-s-25.jpg" },
+  { slug: "type-s-26", title: "Type S 26", category: "TYPE-S", cover: "/type-s/type-s-26.jpg" },
+  { slug: "type-s-27", title: "Type S 27", category: "TYPE-S", cover: "/type-s/type-s-27.jpg" },
+  { slug: "type-s-28", title: "Type S 28", category: "TYPE-S", cover: "/type-s/type-s-28.jpg" },
+  { slug: "type-s-29", title: "Type S 29", category: "TYPE-S", cover: "/type-s/type-s-29.jpg" },
+  { slug: "type-s-30", title: "Type S 30", category: "TYPE-S", cover: "/type-s/type-s-30.jpg" },
+  { slug: "type-s-31", title: "Type S 31", category: "TYPE-S", cover: "/type-s/type-s-31.jpg" },
+  { slug: "type-s-32", title: "Type S 32", category: "TYPE-S", cover: "/type-s/type-s-32.jpg" },
+  { slug: "type-s-33", title: "Type S 33", category: "TYPE-S", cover: "/type-s/type-s-33.jpg" },
+  { slug: "type-s-34", title: "Type S 34", category: "TYPE-S", cover: "/type-s/type-s-34.jpg" },
+  { slug: "type-s-35", title: "Type S 35", category: "TYPE-S", cover: "/type-s/type-s-35.jpg" },
+  { slug: "type-s-36", title: "Type S 36", category: "TYPE-S", cover: "/type-s/type-s-36.jpg" },
+  { slug: "type-s-37", title: "Type S 37", category: "TYPE-S", cover: "/type-s/type-s-37.jpg" },
+  { slug: "type-s-38", title: "Type S 38", category: "TYPE-S", cover: "/type-s/type-s-38.jpg" },
+  { slug: "type-s-39", title: "Type S 39", category: "TYPE-S", cover: "/type-s/type-s-39.jpg" },
+  { slug: "type-s-40", title: "Type S 40", category: "TYPE-S", cover: "/type-s/type-s-40.jpg" },
+  { slug: "type-s-41", title: "Type S 41", category: "TYPE-S", cover: "/type-s/type-s-41.jpg" },
+  { slug: "type-s-42", title: "Type S 42", category: "TYPE-S", cover: "/type-s/type-s-42.jpg" },
+  { slug: "type-s-43", title: "Type S 43", category: "TYPE-S", cover: "/type-s/type-s-43.jpg" },
+  { slug: "type-s-44", title: "Type S 44", category: "TYPE-S", cover: "/type-s/type-s-44.jpg" },
+  { slug: "type-s-45", title: "Type S 45", category: "TYPE-S", cover: "/type-s/type-s-45.jpg" },
+  { slug: "type-s-46", title: "Type S 46", category: "TYPE-S", cover: "/type-s/type-s-46.jpg" },
+  { slug: "type-s-47", title: "Type S 47", category: "TYPE-S", cover: "/type-s/type-s-47.jpg" },
+  { slug: "type-s-48", title: "Type S 48", category: "TYPE-S", cover: "/type-s/type-s-48.jpg" },
+  { slug: "type-s-49", title: "Type S 49", category: "TYPE-S", cover: "/type-s/type-s-49.jpg" },
+  { slug: "type-s-50", title: "Type S 50", category: "TYPE-S", cover: "/type-s/type-s-50.jpg" },
+  { slug: "type-s-51", title: "Type S 51", category: "TYPE-S", cover: "/type-s/type-s-51.jpg" },
+  { slug: "type-s-52", title: "Type S 52", category: "TYPE-S", cover: "/type-s/type-s-52.jpg" },
+  { slug: "type-s-53", title: "Type S 53", category: "TYPE-S", cover: "/type-s/type-s-53.jpg" },
+  { slug: "type-s-54", title: "Type S 54", category: "TYPE-S", cover: "/type-s/type-s-54.jpg" },
+  { slug: "type-s-55", title: "Type S 55", category: "TYPE-S", cover: "/type-s/type-s-55.jpg" },
+  { slug: "type-s-56", title: "Type S 56", category: "TYPE-S", cover: "/type-s/type-s-56.jpg" },
+  { slug: "type-s-57", title: "Type S 57", category: "TYPE-S", cover: "/type-s/type-s-57.jpg" },
+  { slug: "type-s-58", title: "Type S 58", category: "TYPE-S", cover: "/type-s/type-s-58.jpg" },
+  { slug: "type-s-59", title: "Type S 59", category: "TYPE-S", cover: "/type-s/type-s-59.jpg" },
+  { slug: "type-s-60", title: "Type S 60", category: "TYPE-S", cover: "/type-s/type-s-60.jpg" },
+  { slug: "type-s-61", title: "Type S 61", category: "TYPE-S", cover: "/type-s/type-s-61.jpg" },
+
   { slug: "aruba-01", title: "Aruba 01", category: "ARUBA", cover: "/aruba/aruba-01.jpg" },
   { slug: "aruba-02", title: "Aruba 02", category: "ARUBA", cover: "/aruba/aruba-02.jpg" },
   { slug: "aruba-03", title: "Aruba 03", category: "ARUBA", cover: "/aruba/aruba-03.jpg" },
@@ -206,6 +268,7 @@ export const works: Work[] = [
  * accident.
  */
 const albumCovers: Partial<Record<Exclude<Category, "ALL">, string>> = {
+  "TYPE-S": "/type-s/type-s-06.jpg",
   ARUBA: "/aruba/aruba-30.jpg",
 };
 
