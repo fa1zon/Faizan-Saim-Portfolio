@@ -48,7 +48,6 @@ export type Work = {
 export const works: Work[] = [
   { slug: "type-s-01", title: "Type S 01", category: "TYPE-S", cover: "/type-s/type-s-01.jpg" },
   { slug: "type-s-02", title: "Type S 02", category: "TYPE-S", cover: "/type-s/type-s-02.jpg" },
-  { slug: "type-s-03", title: "Type S 03", category: "TYPE-S", cover: "/type-s/type-s-03.jpg" },
   { slug: "type-s-04", title: "Type S 04", category: "TYPE-S", cover: "/type-s/type-s-04.jpg" },
   { slug: "type-s-05", title: "Type S 05", category: "TYPE-S", cover: "/type-s/type-s-05.jpg" },
   { slug: "type-s-06", title: "Type S 06", category: "TYPE-S", cover: "/type-s/type-s-06.jpg" },
