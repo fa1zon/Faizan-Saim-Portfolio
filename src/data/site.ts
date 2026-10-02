@@ -200,9 +200,18 @@ export const works: Work[] = [
 ];
 
 /** Archive landing page: one tile per album, cover borrowed from its first photo. */
+/**
+ * The frame that fronts an album on the archive index. Without an entry here a
+ * collection leads with its first photograph, which is only the right one by
+ * accident.
+ */
+const albumCovers: Partial<Record<Exclude<Category, "ALL">, string>> = {
+  ARUBA: "/aruba/aruba-30.jpg",
+};
+
 export const collections = (categories.filter((c) => c !== "ALL") as Exclude<Category, "ALL">[]).map((category) => {
   const items = works.filter((w) => w.category === category);
-  return { category, count: items.length, cover: items[0].cover };
+  return { category, count: items.length, cover: albumCovers[category] ?? items[0].cover };
 });
 
 export const worksByCategory = (category: Exclude<Category, "ALL">) => works.filter((w) => w.category === category);
